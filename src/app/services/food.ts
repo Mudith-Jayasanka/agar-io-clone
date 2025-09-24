@@ -8,7 +8,7 @@ import { Vector } from '../models/vector';
 export class FoodService {
   foods: Food[] = [];
   private colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-  private foodRadius = 5;
+  private foodRadius = 7;
   private mapSize = 2000;
 
   constructor() {
@@ -28,5 +28,12 @@ export class FoodService {
     );
     const color = this.colors[Math.floor(Math.random() * this.colors.length)];
     this.foods.push(new Food(position, this.foodRadius, color));
+  }
+
+  removeFood(food: Food): void {
+    const index = this.foods.indexOf(food);
+    if (index > -1) {
+      this.foods.splice(index, 1);
+    }
   }
 }

@@ -10,6 +10,7 @@ export class Player {
   private direction: Vector;
   radius = 20;
   speed = 3;
+  foodEaten = 0;
 
   constructor() {
     this.position = new Vector(0, 0); // Start at the world origin
@@ -31,6 +32,12 @@ export class Player {
 
     // Update the player's position
     this.position = this.position.add(this.velocity);
+  }
+
+  eatFood(): void {
+    this.foodEaten++;
+    // We will add logic to grow the player later
+    console.log('Food Eaten:', this.foodEaten);
   }
 
   updateDirection(direction: Vector): void {
