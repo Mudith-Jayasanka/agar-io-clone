@@ -40,6 +40,10 @@ export class GameCanvas implements AfterViewInit, OnDestroy {
     this.player.updateDirection(direction);
   }
 
+  onMouseLeave(): void {
+    this.player.updateDirection(new Vector(0, 0));
+  }
+
   private draw(): void {
     this.ctx.clearRect(0, 0, this.width, this.height);
 
