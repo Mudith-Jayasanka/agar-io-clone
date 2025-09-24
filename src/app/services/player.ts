@@ -7,33 +7,33 @@ import { Vector } from '../models/vector';
 export class Player {
   position: Vector;
   velocity: Vector;
-  private target: Vector;
+  private direction: Vector;
   radius = 20;
   speed = 3;
 
   constructor() {
-    this.position = new Vector(window.innerWidth / 2, window.innerHeight / 2);
+    this.position = new Vector(0, 0); // Start at the world origin
     this.velocity = new Vector(0, 0);
-    this.target = new Vector(window.innerWidth / 2, window.innerHeight / 2);
+    this.direction = new Vector(0, 0);
   }
 
   update(): void {
-    const direction = this.target.subtract(this.position);
-    const distance = direction.magnitude;
+    const acceleration = 0.1; // A value between 0 and 1; lower is slower acceleration
 
-    // Stop moving if the distance is negligible to prevent shaking
-    if (distance < 0.5) {
-      return;
+    let targetVelocity = new Vector(0, 0);
+    // Set a target velocity if the mouse is outside the dead zone
+    if (this.direction.magnitude > this.radius) {
+        targetVelocity = this.direction.normalize().multiply(this.speed);
     }
 
-    // Ensure the player doesn't overshoot the target
-    const moveDistance = Math.min(this.speed, distance);
-    this.velocity = direction.normalize().multiply(moveDistance);
+    // Smoothly interpolate the current velocity towards the target velocity
+    this.velocity = this.velocity.lerp(targetVelocity, acceleration);
+
+    // Update the player's position
     this.position = this.position.add(this.velocity);
   }
 
-  updateTarget(x: number, y: number): void {
-    this.target.x = x;
-    this.target.y = y;
+  updateDirection(direction: Vector): void {
+    this.direction = direction;
   }
 }

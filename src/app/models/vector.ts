@@ -24,4 +24,8 @@ export class Vector {
         }
         return new Vector(this.x / mag, this.y / mag);
     }
+
+    lerp(v: Vector, factor: number): Vector {
+        return this.add(v.subtract(this).multiply(factor));
+    }
 }
